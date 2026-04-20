@@ -5,11 +5,14 @@
 #ifndef SOFTCLIPPING_H
 #define SOFTCLIPPING_H
 #include "../AudioEffect.h"
+
 namespace AudioEngine {
     class SoftClipping final : public AudioEngine::AudioEffect {
     public:
         explicit SoftClipping(double drive);
+
         double process(double sample) override;
+
     private:
         double drive{};
     };

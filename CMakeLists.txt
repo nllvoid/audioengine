@@ -19,4 +19,7 @@ add_executable(oscillator src/main.cpp
         src/effects/SoftClipping.h
         src/effects/SoftClipping.cpp
         src/effects/Delay.h
-        src/effects/Delay.cpp)
+        src/effects/Delay.cpp
+        src/Notes.h
+        src/Arpeggiator.h
+        src/Arpeggiator.cpp)

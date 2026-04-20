@@ -7,8 +7,8 @@
 namespace AudioEngine {
     HardClipping::HardClipping(const double threshold) : threshold(threshold) {
     }
-    double HardClipping::process(const double sample) {
-        return std::clamp(sample, -threshold, threshold);
-    }
 
+    double HardClipping::process(const double sample) {
+        return std::clamp(sample, -this->threshold, this->threshold);
+    }
 }

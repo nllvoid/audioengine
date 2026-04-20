@@ -12,7 +12,9 @@ namespace AudioEngine {
     class Delay final : public AudioEngine::AudioEffect {
     public:
         Delay(int delaySamples, double feedback, double mix);
+
         double process(double sample) override;
+
     private:
         std::vector<double> buffer;
         size_t writeHead{};

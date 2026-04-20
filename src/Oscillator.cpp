@@ -6,26 +6,26 @@
 #include <print>
 
 namespace AudioEngine {
-    Oscillator::Oscillator(float const sample_rate, float const frequency, WaveType const wave)
-        : sample_rate(sample_rate), frequency(frequency), wave(wave) {
+    Oscillator::Oscillator(float const sample_rate, uint8_t const amplitude, float const frequency, WaveType const wave)
+        : sample_rate(sample_rate), frequency(frequency), amplitude(amplitude), wave(wave) {
     }
 
-    Oscillator::Oscillator(float const sample_rate, float const frequency, WaveType const wave,
+    Oscillator::Oscillator(float const sample_rate, uint8_t const amplitude, float const frequency, WaveType const wave,
                            PitchModulation const modulation, float const target_frequency)
-        : sample_rate(sample_rate), frequency(frequency), wave(wave), modulation(modulation),
+        : sample_rate(sample_rate), frequency(frequency), amplitude(amplitude), wave(wave), modulation(modulation),
           target_frequency(target_frequency) {
     }
 
-    Oscillator::Oscillator(float const sample_rate, float const frequency, WaveType const wave,
+    Oscillator::Oscillator(float const sample_rate, uint8_t const amplitude, float const frequency, WaveType const wave,
                            PitchModulation const modulation, float const target_frequency, float const glide_rate)
-        : sample_rate(sample_rate), frequency(frequency), wave(wave), modulation(modulation),
+        : sample_rate(sample_rate), frequency(frequency), amplitude(amplitude), wave(wave), modulation(modulation),
           target_frequency(target_frequency), glide_rate(glide_rate) {
     }
 
-    Oscillator::Oscillator(float const sample_rate, float const frequency, WaveType const wave,
+    Oscillator::Oscillator(float const sample_rate, uint8_t const amplitude, float const frequency, WaveType const wave,
                            PitchModulation const modulation, float const target_frequency, float const glide_rate,
                            float const lfo_phase, float const lfo_frequency, float const lfo_depth)
-        : sample_rate(sample_rate), frequency(frequency), wave(wave), modulation(modulation),
+        : sample_rate(sample_rate), frequency(frequency), amplitude(amplitude), wave(wave), modulation(modulation),
           target_frequency(target_frequency), glide_rate(glide_rate), lfo_phase(lfo_phase),
           lfo_frequency(lfo_frequency), lfo_depth(lfo_depth) {
     }
@@ -44,16 +44,18 @@ namespace AudioEngine {
 
         double value = 0;
         switch (this->wave) {
-            case WaveType::SINE: value = std::sin(2.0 * M_PI * this->phase);
+            case WaveType::SINE: value = this->amplitude * std::sin(2.0 * M_PI * this->phase);
                 break;
-            case WaveType::SQUARE: value = this->phase < 0.5 ? 1.0 : -1.0;
+            case WaveType::SQUARE: value = this->amplitude * (this->phase < 0.5 ? 1.0 : -1.0);
                 break;
-            case WaveType::SAW: value = 2.0 * this->phase - 1.0;
+            case WaveType::SAW: value = this->amplitude * (2.0 * this->phase - 1.0);
                 break;
-            case WaveType::TRIANGLE: value = this->phase < 0.5 ? (4.0 * this->phase - 1.0) : (3.0 - 4.0 * this->phase);
+            case WaveType::TRIANGLE: value = this->amplitude * (this->phase < 0.5
+                                                                    ? (4.0 * this->phase - 1.0)
+                                                                    : (3.0 - 4.0 * this->phase));
                 break;
         }
-        for (auto &effect: this->effects) {
+        for (const auto &effect: this->effects) {
             value = effect->process(value);
         }
         update_phase();
@@ -62,6 +64,10 @@ namespace AudioEngine {
 
     void Oscillator::set_frequency(const float frequency) {
         this->frequency = frequency;
+    }
+
+    void Oscillator::set_target_frequency(const float frequency) {
+        this->target_frequency = frequency;
     }
 
     float Oscillator::get_frequency() const {

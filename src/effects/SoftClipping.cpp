@@ -7,7 +7,8 @@
 namespace AudioEngine {
     SoftClipping::SoftClipping(const double drive) : drive(drive) {
     }
+
     double SoftClipping::process(const double sample) {
-        return std::tanh(sample * drive) / std::tanh(drive);
+        return std::tanh(sample * this->drive) / std::tanh(this->drive);
     }
 }

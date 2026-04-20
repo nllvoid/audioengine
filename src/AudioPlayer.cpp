@@ -1,9 +1,8 @@
 //
 // Created by yevhenii on 20.04.2026.
 //
-#include "Oscillator.h"
 #include "AudioPlayer.h"
-
+#include "Arpeggiator.h"
 #include <iostream>
 #include <utility>
 
@@ -11,8 +10,7 @@
 #include "../vendor/miniaudio.h"
 
 namespace AudioEngine {
-    AudioPlayer::AudioPlayer(float sample_rate, AudioEngine::Oscillator oscillator)
-        : sample_rate(sample_rate), oscillator(std::move(oscillator)) {
+    AudioPlayer::AudioPlayer(float sample_rate, Source source) : sample_rate(sample_rate), source(std::move(source)) {
     }
 
     void AudioPlayer::play() {
@@ -21,7 +19,7 @@ namespace AudioEngine {
         config.playback.channels = 2;
         config.sampleRate = static_cast<ma_uint32>(this->sample_rate);
         config.dataCallback = data_callback;
-        config.pUserData = &this->oscillator;
+        config.pUserData = &this->source;
 
         ma_device device;
         ma_device_init(nullptr, &config, &device);
@@ -34,11 +32,14 @@ namespace AudioEngine {
 
     void AudioPlayer::data_callback(ma_device *device, void *output, const void *input,
                                     const ma_uint32 frameCount) {
-        auto *osc = static_cast<AudioEngine::Oscillator *>(device->pUserData);
+        auto *source = static_cast<AudioPlayer::Source *>(device->pUserData);
         auto *out = static_cast<float *>(output);
 
         for (ma_uint32 i = 0; i < frameCount; i++) {
-            const auto sample = static_cast<float>(osc->next_sample());
+            const float sample = std::visit([](auto &s) {
+                return static_cast<float>(s.next_sample());
+            }, *source);
+
             out[i * 2 + 0] = sample;
             out[i * 2 + 1] = sample;
         }

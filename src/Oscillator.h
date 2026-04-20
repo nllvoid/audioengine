@@ -28,15 +28,15 @@ namespace AudioEngine {
 
     class Oscillator {
     public:
-        Oscillator(float sample_rate, float frequency, WaveType wave);
+        Oscillator(float sample_rate, uint8_t amplitude, float frequency, WaveType wave);
 
-        Oscillator(float sample_rate, float frequency, WaveType wave,
+        Oscillator(float sample_rate, uint8_t amplitude, float frequency, WaveType wave,
                    PitchModulation modulation, float target_frequency);
 
-        Oscillator(float sample_rate, float frequency, WaveType wave,
+        Oscillator(float sample_rate, uint8_t amplitude, float frequency, WaveType wave,
                    PitchModulation modulation, float target_frequency, float glide_rate);
 
-        Oscillator(float sample_rate, float frequency, WaveType wave,
+        Oscillator(float sample_rate, uint8_t amplitude, float frequency, WaveType wave,
                    PitchModulation modulation, float target_frequency, float glide_rate,
                    float lfo_phase, float lfo_frequency, float lfo_depth);
 
@@ -44,13 +44,17 @@ namespace AudioEngine {
 
         void set_frequency(float frequency);
 
+        void set_target_frequency(float frequency);
+
         [[nodiscard]] float get_frequency() const;
 
         void add_effect(std::unique_ptr<AudioEffect> effect);
+
     private:
         float sample_rate{};
         float frequency{};
         float phase = 0.f;
+        uint8_t amplitude{};
         WaveType wave;
 
         PitchModulation modulation{};
