@@ -8,4 +8,9 @@ add_executable(oscillator src/main.cpp
         src/Oscillator.cpp
         src/Oscillator.h
         src/AudioPlayer.h
-        src/AudioPlayer.cpp)
+        src/AudioPlayer.cpp
+        src/AudioEffect.h
+        src/effects/LowPassFilter.h
+        src/effects/LowPassFilter.cpp
+        src/effects/HighPassFilter.h
+        src/effects/HighPassFilter.cpp)

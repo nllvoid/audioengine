@@ -32,27 +32,29 @@ namespace AudioEngine {
 
     double Oscillator::next_sample() {
         switch (this->modulation) {
-            case PitchModulation::LINEAR: apply_linear();
+            case PitchModulation::LINEAR: this->apply_linear();
                 break;
-            case PitchModulation::EXPONENTIAL: apply_exponential();
+            case PitchModulation::EXPONENTIAL: this->apply_exponential();
                 break;
-            case PitchModulation::LOGARITHMIC: apply_logarithmic();
+            case PitchModulation::LOGARITHMIC: this->apply_logarithmic();
                 break;
-            case PitchModulation::LFO: apply_LFO();
+            case PitchModulation::LFO: this->apply_LFO();
                 break;
-            case PitchModulation::NONE: break;
         }
 
         double value = 0;
-        switch (wave) {
-            case WaveType::SINE: value = std::sin(2.0 * M_PI * phase);
+        switch (this->wave) {
+            case WaveType::SINE: value = std::sin(2.0 * M_PI * this->phase);
                 break;
-            case WaveType::SQUARE: value = phase < 0.5 ? 1.0 : -1.0;
+            case WaveType::SQUARE: value = this->phase < 0.5 ? 1.0 : -1.0;
                 break;
-            case WaveType::SAW: value = 2.0 * phase - 1.0;
+            case WaveType::SAW: value = 2.0 * this->phase - 1.0;
                 break;
-            case WaveType::TRIANGLE: value = phase < 0.5 ? (4.0 * phase - 1.0) : (3.0 - 4.0 * phase);
+            case WaveType::TRIANGLE: value = this->phase < 0.5 ? (4.0 * this->phase - 1.0) : (3.0 - 4.0 * this->phase);
                 break;
+        }
+        for (auto &effect: this->effects) {
+            value = effect->process(value);
         }
         update_phase();
         return value;
@@ -66,13 +68,16 @@ namespace AudioEngine {
         return this->frequency;
     }
 
+    void Oscillator::add_effect(std::unique_ptr<AudioEffect> effect) {
+        this->effects.push_back(std::move(effect));
+    }
+
     void Oscillator::update_phase() {
         this->phase = std::fmod(this->phase + this->frequency / this->sample_rate, 1.0f);
     }
 
     void Oscillator::apply_linear() {
         this->frequency += (this->target_frequency - this->frequency) * this->glide_rate;
-        std::printf("%f ", frequency);
     }
 
     void Oscillator::apply_exponential() {
@@ -88,6 +93,5 @@ namespace AudioEngine {
         this->frequency = this->target_frequency + static_cast<float>(
                               std::sin(2.0 * M_PI * this->lfo_phase) * this->lfo_depth);
         this->lfo_phase = std::fmod(this->lfo_phase + this->lfo_frequency / this->sample_rate, 1.0f);
-        std::printf("%f ", frequency);
     }
 }

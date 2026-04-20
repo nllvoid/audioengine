@@ -4,6 +4,12 @@
 
 #ifndef OSCILLATOR_H
 #define OSCILLATOR_H
+#include <memory>
+#include <memory>
+#include <vector>
+
+#include "AudioEffect.h"
+#include "effects/LowPassFilter.h"
 
 namespace AudioEngine {
     enum WaveType {
@@ -14,7 +20,6 @@ namespace AudioEngine {
     };
 
     enum PitchModulation {
-        NONE,
         LINEAR,
         EXPONENTIAL,
         LOGARITHMIC,
@@ -41,6 +46,7 @@ namespace AudioEngine {
 
         [[nodiscard]] float get_frequency() const;
 
+        void add_effect(std::unique_ptr<AudioEffect> effect);
     private:
         float sample_rate{};
         float frequency{};
@@ -56,6 +62,7 @@ namespace AudioEngine {
         float lfo_frequency{};
         float lfo_depth{};
 
+        std::vector<std::unique_ptr<AudioEffect> > effects;
 
         void update_phase();
 

@@ -5,13 +5,14 @@
 #include "AudioPlayer.h"
 
 #include <iostream>
+#include <utility>
 
 #define MINIAUDIO_IMPLEMENTATION
 #include "../vendor/miniaudio.h"
 
 namespace AudioEngine {
     AudioPlayer::AudioPlayer(float sample_rate, AudioEngine::Oscillator oscillator)
-        : sample_rate(sample_rate), oscillator(oscillator) {
+        : sample_rate(sample_rate), oscillator(std::move(oscillator)) {
     }
 
     void AudioPlayer::play() {
