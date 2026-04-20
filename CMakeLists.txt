@@ -13,4 +13,10 @@ add_executable(oscillator src/main.cpp
         src/effects/LowPassFilter.h
         src/effects/LowPassFilter.cpp
         src/effects/HighPassFilter.h
-        src/effects/HighPassFilter.cpp)
+        src/effects/HighPassFilter.cpp
+        src/effects/HardClipping.h
+        src/effects/HardClipping.cpp
+        src/effects/SoftClipping.h
+        src/effects/SoftClipping.cpp
+        src/effects/Delay.h
+        src/effects/Delay.cpp)
