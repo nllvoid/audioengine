@@ -4,7 +4,7 @@
 
 #ifndef LOWPASSFILTER_H
 #define LOWPASSFILTER_H
-#include "../AudioEffect.h"
+#include "AudioEffect.h"
 
 namespace AudioEngine {
     class LowPassFilter final : public AudioEngine::AudioEffect {

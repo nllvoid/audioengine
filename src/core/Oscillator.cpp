@@ -55,9 +55,12 @@ namespace AudioEngine {
                                                                     : (3.0 - 4.0 * this->phase));
                 break;
         }
-        for (const auto &effect: this->effects) {
-            value = effect->process(value);
-        }
+        auto f = static_cast<float>(value);
+        if (effect_chain) effect_chain->process(f);
+        value = f;
+
+        if (envelope) value *= envelope->next();
+
         update_phase();
         return value;
     }
@@ -74,8 +77,16 @@ namespace AudioEngine {
         return this->frequency;
     }
 
-    void Oscillator::add_effect(std::unique_ptr<AudioEffect> effect) {
-        this->effects.push_back(std::move(effect));
+    void Oscillator::set_effect_chain(IEffectChain& chain) {
+        this->effect_chain = &chain;
+    }
+
+    void Oscillator::note_on() const {
+        if (envelope) envelope->note_on();
+    }
+
+    void Oscillator::set_envelope(Envelope& envelope) {
+        this->envelope = &envelope;
     }
 
     void Oscillator::update_phase() {

@@ -11,7 +11,7 @@
 namespace AudioEngine {
     class Arpeggiator {
     public:
-        Arpeggiator(std::vector<float> notes, float rate, float sample_rate, AudioEngine::Oscillator oscillator);
+        Arpeggiator(std::vector<float> notes, float rate, float sample_rate, const AudioEngine::Oscillator &oscillator);
 
         double next_sample();
 

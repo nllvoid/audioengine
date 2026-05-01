@@ -4,7 +4,7 @@
 
 #ifndef SOFTCLIPPING_H
 #define SOFTCLIPPING_H
-#include "../AudioEffect.h"
+#include "AudioEffect.h"
 
 namespace AudioEngine {
     class SoftClipping final : public AudioEngine::AudioEffect {

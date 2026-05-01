@@ -6,7 +6,7 @@
 #define DELAY_H
 #include <vector>
 
-#include "../AudioEffect.h"
+#include "AudioEffect.h"
 
 namespace AudioEngine {
     class Delay final : public AudioEngine::AudioEffect {

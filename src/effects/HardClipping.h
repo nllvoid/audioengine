@@ -4,7 +4,7 @@
 
 #ifndef HARDCLIPPING_H
 #define HARDCLIPPING_H
-#include "../AudioEffect.h"
+#include "AudioEffect.h"
 
 namespace AudioEngine {
     class HardClipping final : public AudioEngine::AudioEffect {

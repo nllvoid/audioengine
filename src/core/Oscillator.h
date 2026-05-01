@@ -8,8 +8,10 @@
 #include <memory>
 #include <vector>
 
-#include "AudioEffect.h"
-#include "effects/LowPassFilter.h"
+#include "../effects/AudioEffect.h"
+#include "Envelope.h"
+#include "../effects/IEffectChain.h"
+#include "../effects/LowPassFilter.h"
 
 namespace AudioEngine {
     enum WaveType {
@@ -48,7 +50,12 @@ namespace AudioEngine {
 
         [[nodiscard]] float get_frequency() const;
 
-        void add_effect(std::unique_ptr<AudioEffect> effect);
+        void set_effect_chain(IEffectChain& chain);
+
+        void set_envelope(Envelope& envelope);
+
+        void note_on() const;
+
 
     private:
         float sample_rate{};
@@ -66,7 +73,8 @@ namespace AudioEngine {
         float lfo_frequency{};
         float lfo_depth{};
 
-        std::vector<std::unique_ptr<AudioEffect> > effects;
+        AudioEngine::IEffectChain* effect_chain = nullptr;
+        AudioEngine::Envelope* envelope = nullptr;
 
         void update_phase();
 

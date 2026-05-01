@@ -4,7 +4,7 @@
 
 #ifndef HIGHPASSFILTER_H
 #define HIGHPASSFILTER_H
-#include "../AudioEffect.h"
+#include "AudioEffect.h"
 
 namespace AudioEngine {
     class HighPassFilter final : public AudioEngine::AudioEffect {

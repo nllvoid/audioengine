@@ -2,12 +2,12 @@
 // Created by yevhenii on 20.04.2026.
 //
 #include "AudioPlayer.h"
-#include "Arpeggiator.h"
+#include "../core/Arpeggiator.h"
 #include <iostream>
 #include <utility>
 
 #define MINIAUDIO_IMPLEMENTATION
-#include "../vendor/miniaudio.h"
+#include "../../vendor/miniaudio.h"
 
 namespace AudioEngine {
     AudioPlayer::AudioPlayer(float sample_rate, Source source) : sample_rate(sample_rate), source(std::move(source)) {

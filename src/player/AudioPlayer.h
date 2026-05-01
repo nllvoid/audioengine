@@ -5,9 +5,9 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#include "Arpeggiator.h"
-#include "Oscillator.h"
-#include "../vendor/miniaudio.h"
+#include "../core/Arpeggiator.h"
+#include "../core/Oscillator.h"
+#include "../../vendor/miniaudio.h"
 
 namespace AudioEngine {
     class AudioPlayer {

@@ -7,8 +7,8 @@
 
 namespace AudioEngine {
     Arpeggiator::Arpeggiator(std::vector<float> notes, const float rate, const float sample_rate,
-                             AudioEngine::Oscillator oscillator)
-        : oscillator(std::move(oscillator)),
+                             const AudioEngine::Oscillator &oscillator)
+        : oscillator(oscillator),
           notes(std::move(notes)),
           step_size(static_cast<size_t>(sample_rate / rate)) {
         this->oscillator.set_target_frequency(this->notes[0]);
@@ -19,6 +19,7 @@ namespace AudioEngine {
             this->counter = 0;
             this->current_index = (this->current_index + 1) % this->notes.size();
             this->oscillator.set_target_frequency(this->notes[this->current_index]);
+            this->oscillator.note_on();
         }
         return this->oscillator.next_sample();
     }
