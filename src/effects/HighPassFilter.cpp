@@ -2,7 +2,8 @@
 // Created by yevhenii on 20.04.2026.
 //
 #include "HighPassFilter.h"
-#include <cmath>
+
+#include <math.h>
 
 namespace AudioEngine {
     HighPassFilter::HighPassFilter(const float cutoff, const float sample_rate)

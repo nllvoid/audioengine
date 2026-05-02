@@ -2,7 +2,7 @@
 // Created by yevhenii on 20.04.2026.
 //
 #include "SoftClipping.h"
-#include <algorithm>
+#include <cmath>
 
 namespace AudioEngine {
     SoftClipping::SoftClipping(const double drive) : drive(drive) {

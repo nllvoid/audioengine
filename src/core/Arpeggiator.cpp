@@ -3,24 +3,24 @@
 //
 #include "Arpeggiator.h"
 
-#include <utility>
-
 namespace AudioEngine {
-    Arpeggiator::Arpeggiator(std::vector<float> notes, const float rate, const float sample_rate,
-                             const AudioEngine::Oscillator &oscillator)
-        : oscillator(oscillator),
-          notes(std::move(notes)),
-          step_size(static_cast<size_t>(sample_rate / rate)) {
-        this->oscillator.set_target_frequency(this->notes[0]);
+    void Arpeggiator::advance_note() {
+        const auto &e = this->entries.at(this->current_index);
+        this->oscillator.set_target_note(e.note);
+        this->oscillator.note_on();
     }
 
     double Arpeggiator::next_sample() {
-        if (++this->counter >= this->step_size) {
+        if (this->entries.empty()) return 0.0;
+
+        if (++this->counter >= this->entries.at(this->current_index).step_size) {
             this->counter = 0;
-            this->current_index = (this->current_index + 1) % this->notes.size();
-            this->oscillator.set_target_frequency(this->notes[this->current_index]);
-            this->oscillator.note_on();
+            this->oscillator.note_off();
+            this->current_index = (this->current_index + 1) % this->entries.size();
+            advance_note();
         }
         return this->oscillator.next_sample();
     }
+
+    AudioEngine::Oscillator &Arpeggiator::get_oscillator() { return this->oscillator; }
 }

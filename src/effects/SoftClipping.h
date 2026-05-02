@@ -1,10 +1,10 @@
 //
 // Created by yevhenii on 20.04.2026.
 //
+#include "AudioEffect.h"
 
 #ifndef SOFTCLIPPING_H
 #define SOFTCLIPPING_H
-#include "AudioEffect.h"
 
 namespace AudioEngine {
     class SoftClipping final : public AudioEngine::AudioEffect {

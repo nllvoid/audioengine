@@ -1,12 +1,13 @@
 //
 // Created by yevhenii on 20.04.2026.
 //
-
-#ifndef DELAY_H
-#define DELAY_H
 #include <vector>
 
 #include "AudioEffect.h"
+
+#ifndef DELAY_H
+#define DELAY_H
+
 
 namespace AudioEngine {
     class Delay final : public AudioEngine::AudioEffect {

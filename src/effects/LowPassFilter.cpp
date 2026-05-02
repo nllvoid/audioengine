@@ -2,6 +2,7 @@
 // Created by yevhenii on 20.04.2026.
 //
 #include "LowPassFilter.h"
+
 #include <cmath>
 
 namespace AudioEngine {

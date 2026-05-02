@@ -8,8 +8,10 @@
 namespace AudioEngine {
     class IEffectChain {
     public:
-        virtual void process(float& sample) = 0;
+        virtual double process(double &sample) = 0;
+
         virtual ~IEffectChain() = default;
+
     };
 }
 

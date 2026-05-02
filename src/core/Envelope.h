@@ -4,6 +4,7 @@
 
 #ifndef ENVELOPE_H
 #define ENVELOPE_H
+
 namespace AudioEngine {
     class Envelope {
     public:
@@ -12,9 +13,11 @@ namespace AudioEngine {
         Envelope(float sample_rate, float attack, float decay, float sustain, float release);
 
         void note_on();
+
         void note_off();
 
         float next();
+
         [[nodiscard]] bool is_idle() const;
 
     private:

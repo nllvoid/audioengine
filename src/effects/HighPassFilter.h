@@ -1,10 +1,10 @@
 //
 // Created by yevhenii on 20.04.2026.
 //
+#include "AudioEffect.h"
 
 #ifndef HIGHPASSFILTER_H
 #define HIGHPASSFILTER_H
-#include "AudioEffect.h"
 
 namespace AudioEngine {
     class HighPassFilter final : public AudioEngine::AudioEffect {
